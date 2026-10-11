@@ -4,150 +4,109 @@
 #include <math.h>
 #include <time.h>
 
-extern void asmkernel(const float* X1, const float* X2, const float* Y1, const float* Y2, float* Z, int n);
-extern void xmmkernel();
-extern void ymmkernel();
+
+//4 kernel functions
+extern double asmkernel(const double* A, int n);
+extern double xmmkernel(const double* A, int n);
+extern double ymmkernel(const double* A, int n);
+double ckernel(const double* A, int n);
 
 
-void distance_kernel(const float* X1, const float* X2, const float* Y1, const float* Y2, float* Z, int n);
-void generate_values(float* X1, float* X2, float* Y1, float* Y2, int n);
-typedef void (*kernel_func)(const float*, const float*, const float*, const float*, float*, int);
-double benchmark_kernel(kernel_func kernel, const float* X1, const float* X2, const float* Y1, const float* Y2, float* Z, int n);
+void generate_values(double* A, int n);                              //generate random values
+typedef double (*kernel_func)(const double*, int);                   //kernel functions
+double benchmark_kernel(kernel_func kernel, const double* A, int n); //benchmark kernel for 30 runs
 
 
 int main(int argc, char* argv[]) {
 
-    xmmkernel();
-    ymmkernel();
-
-
     //n = 2^20, 2^26, 2^30 for testing
     //n = my laptop couldnt handle 2^30 so just test it on your device
-    int testSizes[] = { 1 << 20,1 << 26,1 << 30 };
+
+    //TO DO: boundary situations (ex: 1003)
+    int testSizes[] = { 1 << 20,1 << 21,1 << 22 };
     int numTests = 3;
 
     for (int t = 0; t < numTests; t++) {
         int n = testSizes[t];
 
         //initialize memory allocation
-        float* X1 = (float*)malloc(n * sizeof(float));
-        float* X2 = (float*)malloc(n * sizeof(float));
-        float* Y1 = (float*)malloc(n * sizeof(float));
-        float* Y2 = (float*)malloc(n * sizeof(float));
-        float* Z = (float*)malloc(n * sizeof(float));
-        float* Z_asm = (float*)malloc(n * sizeof(float));
+        double* A = (double*)malloc(n * sizeof(double));
 
         //verify allocation
-        if (X1 == NULL || X2 == NULL || Y1 == NULL || Y2 == NULL || Z == NULL || Z_asm == NULL) {
-
-            printf("Memory allocation failed.\n");
-            free(X1);
-            free(X2);
-            free(Y1);
-            free(Y2);
-            free(Z);
-            free(Z_asm);
-
+        if (A == NULL) {
+			printf("Memory allocation failed at n = %d\n", n);
             return 1;
         }
 
-        //compute for execution time using random values
-        printf("\nTesting n = %d\n", n);
-        printf("Generating values:\n");
-        generate_values(X1, X2, Y1, Y2, n);
+        //generate values
+        printf("\n----------------------------------------\n");
+        printf("Testing n = %d\n", n);
+        generate_values(A, n);
 
 
-        printf("Benchmarking C:\n");
-        double finalTime_C = benchmark_kernel(distance_kernel, X1, X2, Y1, Y2, Z, n);
-        printf("Benchmarking ASM:\n");
-        double finalTime_asm = benchmark_kernel(asmkernel, X1, X2, Y1, Y2, Z_asm, n);
-
-        int limit = (n < 10) ? n : 10;
+        //TO DO: implement asm, xmm, and ymm
+        double time_c = benchmark_kernel(ckernel, A, n);
+        double result_c = ckernel(A, n);
 
 
-        //display first 10 results for C
-        for (int i = 0; i < limit; i++) {
-            printf("Z[%d] = %.9f\n", i, Z[i]);
-        }
-        printf("\nAverage Execution Time for C (30 runs): %.9f seconds\n", finalTime_C);
+        //TO DO: display 4 results
+		printf("\nC Results:\n");
+        printf("ASUM: %.2f\n", result_c);
+        printf("Average Time: %.9f seconds\n", time_c);
 
 
-        //display first 10 results for ASM
-        for (int i = 0; i < limit; i++) {
-            printf("Z_asm[%d] = %.9f\n", i, Z[i]);
-        }
-        printf("\nAverage Execution Time for ASM (30 runs): %.9f seconds\n", finalTime_asm);
-
-
-        //verify correctness of asm kernel
-        int correct = 1;
-        for (int i = 0; i < n; i++)
-        {
-            //check if results are equal
-            if (Z[i] != Z_asm[i])
-            {
-                correct = 0;
-            }
-        }
-        if (correct)
-            printf("asm kernel is correct.\n");
-        else
-            printf("asm kernel is incorrect.\n");
-
+        //TO DO: comparison check with C as basis
+       
 
         //free memory
-        free(X1);
-        free(X2);
-        free(Y1);
-        free(Y2);
-        free(Z);
-        free(Z_asm);
+        free(A);
     }
     return 0;
 }
 
-//kernel formula
-void distance_kernel(const float* X1, const float* X2, const float* Y1, const float* Y2, float* Z, int n) {
-    for (int i = 0; i < n; i++) {
-        float dx = X2[i] - X1[i];
-        float dy = Y2[i] - Y1[i];
-
-        Z[i] = sqrtf((dx * dx) + (dy * dy));
-    }
-}
-
 
 //generate random values
-void generate_values(float* X1, float* X2, float* Y1, float* Y2, int n) {
+void generate_values(double* A, int n) {
 
-    srand((unsigned)time(NULL));
+    srand(67);
 
     for (int i = 0; i < n; i++) {
-        X1[i] = (float)(rand() % 100);
-        X2[i] = (float)(rand() % 100);
-        Y1[i] = (float)(rand() % 100);
-        Y2[i] = (float)(rand() % 100);
+        A[i] = ((double)rand() / RAND_MAX) * 100.0 - 50.0;
+        //random values between 50 and -50
     }
 }
 
-//for getting average time with 30 runs
-double benchmark_kernel(kernel_func kernel, const float* X1, const float* X2, const float* Y1, const float* Y2, float* Z, int n) {
+//kernel formula asum
+double ckernel(const double* A, int n) {
+
+    double sum = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        sum += fabs(A[i]);
+        }
+    
+    return sum;
+}
+
+
+//benchmark kernel function for 30 runs
+double benchmark_kernel(kernel_func kernel, const double* A, int n) {
 
     LARGE_INTEGER frequency;
     LARGE_INTEGER start;
     LARGE_INTEGER end;
 
     QueryPerformanceFrequency(&frequency);
-    double finalTime = 0.0;
+    double totalTime = 0.0;
+    double test = kernel(A, n);
 
-    for (int i = 0; i < 30; i++)
-    {
+    for (int i = 0; i < 30; i++) {
         QueryPerformanceCounter(&start);
-        kernel(X1, X2, Y1, Y2, Z, n);
+        kernel(A, n);
         QueryPerformanceCounter(&end);
 
-        finalTime += (double)(end.QuadPart - start.QuadPart) / frequency.QuadPart;
+        totalTime += (double)(end.QuadPart - start.QuadPart) / frequency.QuadPart;
     }
 
-    return finalTime / 30.0;
+    return totalTime / 30.0;
 }
