@@ -48,11 +48,15 @@ int main(int argc, char* argv[]) {
         double time_c = benchmark_kernel(ckernel, A, n);
         double result_c = ckernel(A, n);
 
+        double time_asm = benchmark_kernel(asmkernel, A, n);
+        double asum_asm = asmkernel(A, n);
 
         //TO DO: display 4 results
 		printf("\nC Results:\n");
-        printf("ASUM: %.2f\n", result_c);
-        printf("Average Time: %.9f seconds\n", time_c);
+        printf("ASUM: %.2lf\n", result_c);
+        printf("ASM kernel: %.2lf\n", asum_asm);
+        printf("Average Time for C: %.9lf seconds\n", time_c);
+        printf("Average Time for Asm Kernel: %.9lf seconds \n", time_asm);
 
 
         //TO DO: comparison check with C as basis
