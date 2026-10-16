@@ -1,116 +1,198 @@
+// main.c
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
 #include <math.h>
-#include <time.h>
 
+#define NUM_RUNS 30
 
-//4 kernel functions
+// four kernels to benchmark: C, x86-64, XMM, and YMM
 extern double asmkernel(const double* A, int n);
 extern double xmmkernel(const double* A, int n);
 extern double ymmkernel(const double* A, int n);
 double ckernel(const double* A, int n);
 
+typedef double (*kernel_func)(const double*, int);
 
-void generate_values(double* A, int n);                              //generate random values
-typedef double (*kernel_func)(const double*, int);                   //kernel functions
-double benchmark_kernel(kernel_func kernel, const double* A, int n); //benchmark kernel for 30 runs
+// function declarations
+void generate_values(double* A, int n);
+double benchmark_kernel(kernel_func kernel, const double* A, int n);
+int check_result(double reference, double result);
+void run_test(int n);
 
+int main(void)
+{
+    // large test sizes
+	// increase these if memory allows, 
+    // but keep in mind that the ASUM kernel is O(n) and will take longer to run for larger sizes
+    int testSizes[] = {
+        1 << 20,
+        1 << 24,
+        1 << 30
+    };
 
-int main(int argc, char* argv[]) {
+    int numTests = sizeof(testSizes) / sizeof(testSizes[0]);
 
-    //n = 2^20, 2^26, 2^30 for testing
-    //n = my laptop couldnt handle 2^30 so just test it on your device
+    // use the same random sequence for all tests
+    srand(67);
 
-    //TO DO: boundary situations (ex: 1003)
-    int testSizes[] = { 1 << 20,1 << 21,1 << 22 };
-    int numTests = 3;
+    printf("============================================\n");
+    printf("          ASUM KERNEL BENCHMARK\n");
+    printf("============================================\n");
+    printf("Input values: random doubles in [-50, 50]\n");
+    printf("Benchmark runs: %d\n", NUM_RUNS);
 
-    for (int t = 0; t < numTests; t++) {
-        int n = testSizes[t];
-
-        //initialize memory allocation
-        double* A = (double*)malloc(n * sizeof(double));
-
-        //verify allocation
-        if (A == NULL) {
-			printf("Memory allocation failed at n = %d\n", n);
-            return 1;
-        }
-
-        //generate values
-        printf("\n----------------------------------------\n");
-        printf("Testing n = %d\n", n);
-        generate_values(A, n);
-
-
-        //TO DO: implement xmm and ymm
-        double time_c = benchmark_kernel(ckernel, A, n);
-        double result_c = ckernel(A, n);
-
-        double time_asm = benchmark_kernel(asmkernel, A, n);
-        double asum_asm = asmkernel(A, n);
-
-        //TO DO: display 4 results
-        printf("\nC kernel: %.2lf\n", result_c);
-        printf("ASM kernel: %.2lf\n\n", asum_asm);
-        printf("Average Time for C kernel: %.9lf seconds\n", time_c);
-        printf("Average Time for Asm Kernel: %.9lf seconds \n", time_asm);
-
-
-        //TO DO: comparison check with C as basis
-       
-
-        //free memory
-        free(A);
+    for (int i = 0; i < numTests; i++) {
+        run_test(testSizes[i]);
     }
+
+    // test sizes that are not divisible by 2 or 4
+    int boundarySizes[] = { 1, 3, 7, 1003, 1005 };
+
+    int numBoundary =
+        sizeof(boundarySizes) / sizeof(boundarySizes[0]);
+
+    printf("\n============================================\n");
+    printf("              BOUNDARY TESTS\n");
+    printf("============================================\n");
+
+    for (int i = 0; i < numBoundary; i++) {
+        run_test(boundarySizes[i]);
+    }
+
     return 0;
 }
 
+void run_test(int n)
+{
+    if (n <= 0) {
+        printf("Invalid vector size: %d\n", n);
+        return;
+    }
 
-//generate random values
-void generate_values(double* A, int n) {
+    double* A = (double*)malloc((size_t)n * sizeof(double));
 
-    srand(67);
+    if (A == NULL) {
+        printf("Memory allocation failed for n = %d\n", n);
+        return;
+    }
 
+    generate_values(A, n);
+
+    printf("\n--------------------------------------------\n");
+    printf("Vector size: n = %d\n", n);
+    printf("--------------------------------------------\n");
+
+    // calculate the results.
+    double resultC = ckernel(A, n);
+    double resultASM = asmkernel(A, n);
+    double resultXMM = xmmkernel(A, n);
+    double resultYMM = ymmkernel(A, n);
+
+    // measure each kernel separately
+    double timeC = benchmark_kernel(ckernel, A, n);
+    double timeASM = benchmark_kernel(asmkernel, A, n);
+    double timeXMM = benchmark_kernel(xmmkernel, A, n);
+    double timeYMM = benchmark_kernel(ymmkernel, A, n);
+
+    // display the results and check correctness against C
+    printf("\nResults:\n");
+    printf("C kernel:       %.12f [REFERENCE]\n", resultC);
+
+    printf("x86-64 kernel:  %.12f [%s]\n",
+        resultASM,
+        check_result(resultC, resultASM) ? "CORRECT" : "WRONG");
+
+    printf("XMM kernel:     %.12f [%s]\n",
+        resultXMM,
+        check_result(resultC, resultXMM) ? "CORRECT" : "WRONG");
+
+    printf("YMM kernel:     %.12f [%s]\n",
+        resultYMM,
+        check_result(resultC, resultYMM) ? "CORRECT" : "WRONG");
+
+    // display the average execution times
+    printf("\nAverage time (%d runs):\n", NUM_RUNS);
+    printf("C:       %.9f seconds\n", timeC);
+
+    printf("x86-64:  %.9f seconds (speedup: %.2fx)\n",
+        timeASM, timeC / timeASM);
+
+    printf("XMM:     %.9f seconds (speedup: %.2fx)\n",
+        timeXMM, timeC / timeXMM);
+
+    printf("YMM:     %.9f seconds (speedup: %.2fx)\n",
+        timeYMM, timeC / timeYMM);
+
+    free(A);
+}
+
+// generate random values between -50 and 50
+void generate_values(double* A, int n)
+{
     for (int i = 0; i < n; i++) {
         A[i] = ((double)rand() / RAND_MAX) * 100.0 - 50.0;
-        //random values between 50 and -50
     }
 }
 
-//kernel formula asum
-double ckernel(const double* A, int n) {
-
+// C reference implementation
+double ckernel(const double* A, int n)
+{
     double sum = 0.0;
 
     for (int i = 0; i < n; i++) {
         sum += fabs(A[i]);
-        }
-    
+    }
+
     return sum;
 }
 
+// return 1 if the results are close
+int check_result(double reference, double result)
+{
+    double difference = fabs(reference - result);
+    double tolerance = 1e-8 * fmax(1.0, fabs(reference));
 
-//benchmark kernel function for 30 runs
-double benchmark_kernel(kernel_func kernel, const double* A, int n) {
+    return difference <= tolerance;
+}
 
-    //used queryperformancefrequency for more precise time
+// measure the kernel execution time over 30 runs
+double benchmark_kernel(
+    kernel_func kernel,
+    const double* A,
+    int n)
+{
     LARGE_INTEGER frequency;
     LARGE_INTEGER start;
     LARGE_INTEGER end;
 
     QueryPerformanceFrequency(&frequency);
-    double totalTime = 0.0;
-    double test = kernel(A, n);
 
-    for (int i = 0; i < 30; i++) {
+    double warmup = kernel(A, n);
+    (void)warmup;
+
+    double totalTime = 0.0;
+    double checksum = 0.0;
+
+    for (int i = 0; i < NUM_RUNS; i++) {
         QueryPerformanceCounter(&start);
-        kernel(A, n);
+
+        double result = kernel(A, n);
+
         QueryPerformanceCounter(&end);
 
-        totalTime += (double)(end.QuadPart - start.QuadPart) / frequency.QuadPart;
+        // use the returned result outside the timed interval
+        checksum += result;
+
+        totalTime +=
+            (double)(end.QuadPart - start.QuadPart)
+            / (double)frequency.QuadPart;
     }
 
-    return totalTime / 30.0;
+    // keep the checksum observable without printing during timing.
+    if (checksum < 0.0) {
+        printf("Unexpected negative ASUM result.\n");
+    }
+
+    return totalTime / NUM_RUNS;
 }
