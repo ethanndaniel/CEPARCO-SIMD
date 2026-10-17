@@ -19,7 +19,7 @@ ymmkernel:
 
     cmp edx, 0
     jle finish
-    movsxd rdx, edx
+    mov rdx, edx
 
 process_groups:
     ; process four doubles if at least four remain

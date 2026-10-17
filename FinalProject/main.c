@@ -115,14 +115,11 @@ void run_test(int n)
     printf("\nAverage time (%d runs):\n", NUM_RUNS);
     printf("C:       %.9f seconds\n", timeC);
 
-    printf("x86-64:  %.9f seconds (speedup: %.2fx)\n",
-        timeASM, timeC / timeASM);
+    printf("x86-64:  %.9f seconds\n", timeASM);
 
-    printf("XMM:     %.9f seconds (speedup: %.2fx)\n",
-        timeXMM, timeC / timeXMM);
+    printf("XMM:     %.9f seconds\n", timeXMM);
 
-    printf("YMM:     %.9f seconds (speedup: %.2fx)\n",
-        timeYMM, timeC / timeYMM);
+    printf("YMM:     %.9f seconds\n", timeYMM);
 
     free(A);
 }
