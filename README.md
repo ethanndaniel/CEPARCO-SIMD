@@ -406,56 +406,56 @@ Average of 30 runs, in seconds.
 
 XMM Register:
 
-![Boundary Check](Screenshots/xmm_Compile/xmm4.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_4.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm5.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_5.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm6.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_6.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm7.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_7.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm8.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_8.png)
 
 
 YMM register
 
-![Boundary Check](Screenshots/ymm_Compile/ymm4.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_4.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm5.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_5.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm6.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_6.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm7.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_7.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm8.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_8.png)
 
 
 **Boundary Check for Release:**
 
 XMM Register:
 
-![Boundary Check](Screenshots/xmm_Compile/xmm12.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_12.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm13.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_13.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm14.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_14.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm15.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_15.png)
 
-![Boundary Check](Screenshots/xmm_Compile/xmm16.png)
+![Boundary Check](Screenshots/xmm_Compile/xmm_16.png)
 
 
 YMM register
 
-![Boundary Check](Screenshots/ymm_Compile/ymm12.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_12.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm13.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_13.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm14.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_14.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm15.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_15.png)
 
-![Boundary Check](Screenshots/ymm_Compile/ymm16.png)
+![Boundary Check](Screenshots/ymm_Compile/ymm_16.png)
 
 
 
