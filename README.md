@@ -242,10 +242,23 @@ _TODO: edit the last column to match what was actually shown in class (help here
 ![Debug timing](Screenshots/Debug/Debug_2^26.png)
 ![Debug timing](Screenshots/Debug/Debug_2^27.png)
 
+
+![Release timing](Screenshots/Debug/DTest_V1.png)
+![Release timing](Screenshots/Debug/DTest_V3.png)
+![Release timing](Screenshots/Debug/DTest_V7.png)
+![Release timing](Screenshots/Debug/DTest_V10031005.png)
+
 #### Release
 ![Release timing](Screenshots/Release/Release_2^20.png)
 ![Release timing](Screenshots/Release/Release_2^26.png)
 ![Release timing](Screenshots/Release/Release_2^27.png)
+
+
+![Release timing](Screenshots/Release/RTest_V1.png)
+![Release timing](Screenshots/Release/RTest_V3.png)
+![Release timing](Screenshots/Release/RTest_V7.png)
+![Release timing](Screenshots/Release/RTest_V1003.png)
+![Release timing](Screenshots/Release/RTest_V1005.png)
 
 ### ii. Comparative table of execution time
 
@@ -272,8 +285,43 @@ Average of 30 runs, in seconds.
 | Speed-Up |  0.4055x | 3.0413x | 3.6778x |
 
 ### iii. Correctness check: C version
-<!-- ![C output](screenshots/c_output.png) -->
-_TODO: screenshot_
+
+**Debug:**
+
+
+[C output](screenshots/c_Compile/C1.png)
+
+[C output](screenshots/c_Compile/C2.png)
+
+[C output](screenshots/c_Compile/C3.png)
+
+[C output](screenshots/c_Compile/C4.png)
+
+[C output](screenshots/c_Compile/C5.png)
+
+[C output](screenshots/c_Compile/C6.png)
+
+[C output](screenshots/c_Compile/C7.png)
+
+[C output](screenshots/c_Compile/C8.png)
+
+**Release:**
+
+[C output](screenshots/c_Compile/C9.png)
+
+[C output](screenshots/c_Compile/C10.png)
+
+[C output](screenshots/c_Compile/C11.png)
+
+[C output](screenshots/c_Compile/C12.png)
+
+[C output](screenshots/c_Compile/C13.png)
+
+[C output](screenshots/c_Compile/C14.png)
+
+[C output](screenshots/c_Compile/C15.png)
+
+[C output](screenshots/c_Compile/C16.png)
 
 ### iv. Correctness check: x86-64
 <!-- ![x86-64 output](screenshots/asm_output.png) -->
@@ -290,18 +338,11 @@ _TODO: screenshot_
 ### vii. Boundary check: SIMD XMM and YMM
 **Boundary Check for Debug:**
 
-![Boundary check](Screenshots/Debug/DTest_V1.png)
-![Boundary check](Screenshots/Debug/DTest_V3.png)
-![Boundary check](Screenshots/Debug/DTest_V7.png)
-![Boundary check](Screenshots/Debug/DTest_V10031005.png)
+
 
 **Boundary Check for Release:**
 
-![Boundary check](Screenshots/Release/RTest_V1.png)
-![Boundary check](Screenshots/Release/RTest_V3.png)
-![Boundary check](Screenshots/Release/RTest_V7.png)
-![Boundary check](Screenshots/Release/RTest_V1003.png)
-![Boundary check](Screenshots/Release/RTest_V1005.png)
+
 
 
 ### viii. Analysis of results
@@ -312,19 +353,20 @@ _TODO: write this once the measurements are in. Questions to answer, with what o
 _TODO._
 
 **AHAness: is the kernel memory-bound or compute-bound?**
-- *Memory-bound* means the processor spends most of its time **waiting for numbers to arrive from RAM**. *Compute-bound* means it spends most of its time **doing the arithmetic**.
+- *Memory-bound* means the processor spends most of its time **waiting for numbers to arrive from RAM**. *Compute-bound* means it spends most of its time **doing the arithmetic**. This is observed when at higher vectors some devices cannot compute.
 - ASUM does very little math per number (one absolute value and one add for every 8 bytes read), so for large arrays we expect it to be **memory-bound**: once the SIMD kernels process numbers faster than RAM can deliver them, making them wider does not help, and XMM and YMM should end up close together.
 - For smaller arrays (2^20 = 8 MB) more of the data can sit in the processor's fast cache memory, so we expect YMM to show more of an advantage there.
 - To check this, compute the speed at which each kernel reads data, `n × 8 bytes ÷ time`, and compare it to the memory bandwidth of the machine. _TODO._
 
 **Will SIMD YMM be faster than optimized C?**
-- Visual Studio's C compiler does not turn a floating-point sum into SIMD by default, because adding in a different order could change the result. So the C loop should behave like a one-at-a-time loop even in Release. _TODO: confirm with the Release numbers._
+- Visual Studio's C compiler does not turn a floating-point sum into SIMD by default, because adding in a different order could change the result. So the C loop should behave like a one-at-a-time loop even in Release. 
 
 **Why is the speedup not the theoretical 2× (XMM) and 4× (YMM)?** Possible reasons to check:
 - Memory speed becomes the limit before the arithmetic does.
 - In every one of our kernels, each addition has to wait for the previous addition to finish, because there is only one running total. This limits how fast the loop can go, regardless of register width.
 - The one-at-a-time leftover loop and the final combining of the partial sums add a little extra work (this matters mostly for small `n`).
 - Debug vs Release and cache effects at different sizes.
+- Modern CPU tend to lower the clock rate for AVX2 instructions to not overheat the system, so the SIMD kernels may run slower than expected.
 
 **Why might the x86-64 version be slowest?** It checks the sign of every number with an if-style jump. With random values, about half the numbers are negative, so the processor often guesses the jump wrong and loses time. It also reloads 0.0 from memory on every step. _TODO: confirm with the numbers._
 
