@@ -74,7 +74,7 @@ _TODO: if NASM is installed in a different folder, change the path under Project
 | RAM | DDR4 SODIMM 8GB |
 | OS | Windows 11 |
 | Visual Studio version | 18.8.2 |
-| Compiler settings |  |
+| Compiler settings | MinGW.org GCC-6.3.0-1 |
 
 ![Test machine](Screenshots/Cp_Properties.png)
 
