@@ -265,6 +265,13 @@ Average of 30 runs, in seconds.
 | 2^26 | 0.1268 | 0.4323 | 0.0567 | 0.0555 |
 | 2^27 (as fallback) | 0.5738 | 1.792 | 0.2314 | 0.17 |
 
+#### Release
+| n | x86-64 | SIMD XMM | SIMD YMM |
+| :--- | :-: | :-: | :-: |
+| 2^20 |  0.01 | 0.0014 | 0.0011 |
+| 2^26 |  0.4323 | 0.0567 | 0.0555 |
+| 2^27 (as fallback) | 1.792 | 0.2314 | 0.17 |
+
 ### iii. Correctness check: C version
 <!-- ![C output](screenshots/c_output.png) -->
 _TODO: screenshot_
