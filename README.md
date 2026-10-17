@@ -283,12 +283,14 @@ _TODO: screenshot_
 
 ### vii. Boundary check: SIMD XMM and YMM
 **Boundary Check for Debug:**
+
 ![Boundary check](Screenshots/Debug/DTest_V1.png)
 ![Boundary check](Screenshots/Debug/DTest_V3.png)
 ![Boundary check](Screenshots/Debug/DTest_V7.png)
 ![Boundary check](Screenshots/Debug/DTest_V10031005.png)
 
 **Boundary Check for Release:**
+
 ![Boundary check](Screenshots/Release/RTest_V1.png)
 ![Boundary check](Screenshots/Release/RTest_V3.png)
 ![Boundary check](Screenshots/Release/RTest_V7.png)
