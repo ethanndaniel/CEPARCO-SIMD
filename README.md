@@ -70,11 +70,13 @@ _TODO: if NASM is installed in a different folder, change the path under Project
 
 | Item | Value |
 | :--- | :--- |
-| CPU | TODO |
-| RAM | TODO |
-| OS | TODO |
-| Visual Studio version | TODO |
-| Compiler settings | TODO (Debug: no optimization, Release: `/O2`) |
+| CPU | Intel Core i3-115G4 |
+| RAM | DDR4 SODIMM 8GB |
+| OS | Windows 11 |
+| Visual Studio version | 18.8.2 |
+| Compiler settings |  |
+
+![Test machine](Screenshots/Cp_Properties.png)
 
 ---
 
