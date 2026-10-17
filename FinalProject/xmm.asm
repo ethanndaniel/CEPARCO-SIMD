@@ -17,7 +17,7 @@ xmmkernel:
 
     cmp edx, 0
     jle finish
-    mov rdx, edx
+    mov edx, edx
 
     vmovddup xmm3, [negate]
 
