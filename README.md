@@ -236,12 +236,14 @@ _TODO: edit the last column to match what was actually shown in class (help here
 ### i. Program output with execution time (all cases)
 
 #### Debug
-<!-- ![Debug timing](screenshots/debug_timing.png) -->
-_TODO: screenshot_
+![Debug timing](Screenshots/Debug/Debug_2^20.png)
+![Debug timing](Screenshots/Debug/Debug_2^26.png)
+![Debug timing](Screenshots/Debug/Debug_2^27.png)
 
 #### Release
-<!-- ![Release timing](screenshots/release_timing.png) -->
-_TODO: screenshot_
+![Release timing](Screenshots/Release/Release_2^20.png)
+![Release timing](Screenshots/Release/Release_2^26.png)
+![Release timing](Screenshots/Release/Release_2^27.png)
 
 ### ii. Comparative table of execution time
 
@@ -250,25 +252,16 @@ Average of 30 runs, in seconds.
 #### Debug
 | n | C | x86-64 | SIMD XMM | SIMD YMM |
 | :--- | :-: | :-: | :-: | :-: |
-| 2^20 | TODO | TODO | TODO | TODO |
-| 2^26 | TODO | TODO | TODO | TODO |
-| 2^30 (or fallback) | TODO | TODO | TODO | TODO |
+| 2^20 | 0.0077 | 0.0084 | 0.0012 | 0.0009 |
+| 2^26 | 0.2772 | 0.428 | 0.055 | 0.04021 |
+| 2^30 (as fallback) | 1.1917 | 1.8246 | 0.2347 | 0.1714 |
 
 #### Release
 | n | C | x86-64 | SIMD XMM | SIMD YMM |
 | :--- | :-: | :-: | :-: | :-: |
-| 2^20 | TODO | TODO | TODO | TODO |
-| 2^26 | TODO | TODO | TODO | TODO |
-| 2^30 (or fallback) | TODO | TODO | TODO | TODO |
-
-#### How many times faster than C (Release)
-| n | x86-64 | SIMD XMM | SIMD YMM |
-| :--- | :-: | :-: | :-: |
-| 2^20 | TODO× | TODO× | TODO× |
-| 2^26 | TODO× | TODO× | TODO× |
-| 2^30 (or fallback) | TODO× | TODO× | TODO× |
-
-_TODO: a short analysis of how many times faster each kernel is, and why._
+| 2^20 | 0.0071 | 0.01 | 0.0014 | 0.0011 |
+| 2^26 | 0.1268 | 0.4323 | 0.0567 | 0.0555 |
+| 2^27 (as fallback) | 0.5738 | 1.792 | 0.2314 | 0.17 |
 
 ### iii. Correctness check: C version
 <!-- ![C output](screenshots/c_output.png) -->
@@ -287,8 +280,20 @@ _TODO: screenshot_
 _TODO: screenshot_
 
 ### vii. Boundary check: SIMD XMM and YMM
-<!-- ![Boundary check](screenshots/boundary.png) -->
-_TODO: screenshot of the BOUNDARY TESTS section of the output (n = 1, 3, 7, 1003, 1005)_
+**Boundary Check for Debug:**
+![Boundary check](Screenshots/Debug/DTest_V1.png)
+![Boundary check](Screenshots/Debug/DTest_V3.png)
+![Boundary check](Screenshots/Debug/DTest_V7.png)
+![Boundary check](Screenshots/Debug/DTest_V1003.png)
+![Boundary check](Screenshots/Debug/DTest_V1005.png)
+
+**Boundary Check for Release:**
+![Boundary check](Screenshots/Release/RTest_V1.png)
+![Boundary check](Screenshots/Release/RTest_V3.png)
+![Boundary check](Screenshots/Release/RTest_V7.png)
+![Boundary check](Screenshots/Release/RTest_V1003.png)
+![Boundary check](Screenshots/Release/RTest_V1005.png)
+
 
 ### viii. Analysis of results
 

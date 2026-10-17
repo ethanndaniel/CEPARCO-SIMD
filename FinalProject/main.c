@@ -27,8 +27,8 @@ int main(void)
     // but keep in mind that the ASUM kernel is O(n) and will take longer to run for larger sizes
     int testSizes[] = {
         1 << 20,
-        1 << 24,
-        1 << 30
+        1 << 26,
+        1 << 27
     };
 
     int numTests = sizeof(testSizes) / sizeof(testSizes[0]);
