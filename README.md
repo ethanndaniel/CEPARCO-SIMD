@@ -289,68 +289,180 @@ Average of 30 runs, in seconds.
 **Debug:**
 
 
-[C output](screenshots/c_Compile/C1.png)
+![C output](screenshots/c_Compile/C1.png)
 
-[C output](screenshots/c_Compile/C2.png)
+![C output](screenshots/c_Compile/C2.png)
 
-[C output](screenshots/c_Compile/C3.png)
+![C output](screenshots/c_Compile/C3.png)
 
-[C output](screenshots/c_Compile/C4.png)
+![C output](screenshots/c_Compile/C4.png)
 
-[C output](screenshots/c_Compile/C5.png)
+![C output](screenshots/c_Compile/C5.png)
 
-[C output](screenshots/c_Compile/C6.png)
+![C output](screenshots/c_Compile/C6.png)
 
-[C output](screenshots/c_Compile/C7.png)
+![C output](screenshots/c_Compile/C7.png)
 
-[C output](screenshots/c_Compile/C8.png)
+![C output](screenshots/c_Compile/C8.png)
 
 **Release:**
 
-[C output](screenshots/c_Compile/C9.png)
+![C output](screenshots/c_Compile/C9.png)
 
-[C output](screenshots/c_Compile/C10.png)
+![C output](screenshots/c_Compile/C10.png)
 
-[C output](screenshots/c_Compile/C11.png)
+![C output](screenshots/c_Compile/C11.png)
 
-[C output](screenshots/c_Compile/C12.png)
+![C output](screenshots/c_Compile/C12.png)
 
-[C output](screenshots/c_Compile/C13.png)
+![C output](screenshots/c_Compile/C13.png)
 
-[C output](screenshots/c_Compile/C14.png)
+![C output](screenshots/c_Compile/C14.png)
 
-[C output](screenshots/c_Compile/C15.png)
+![C output](screenshots/c_Compile/C15.png)
 
-[C output](screenshots/c_Compile/C16.png)
+![C output](screenshots/c_Compile/C16.png)
 
 ### iv. Correctness check: x86-64
-<!-- ![x86-64 output](screenshots/asm_output.png) -->
-_TODO: screenshot_
+
+**Debug:**
+
+![x86-64 output](screenshots/x86_Compile/x86_1.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_2.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_3.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_4.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_5.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_6.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_7.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_8.png)
+
+**Release:**
+
+![x86-64 output](screenshots/x86_Compile/x86_9.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_10.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_11.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_12.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_13.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_14.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_15.png)
+
+![x86-64 output](screenshots/x86_Compile/x86_16.png)
+
+
 
 ### v. Correctness check: SIMD XMM
-<!-- ![XMM output](screenshots/xmm_output.png) -->
-_TODO: screenshot_
+
+**Debug:**
+
+![XMM output](screenshots/xmm_Compile/xmm_1.png)
+
+![XMM output](screenshots/xmm_Compile/xmm_2.png)
+
+![XMM output](screenshots/xmm_Compile/xmm_3.png)
+
+
+**Release:**
+
+![XMM output](screenshots/xmm_Compile/xmm_9.png)
+
+![XMM output](screenshots/xmm_Compile/xmm_10.png)
+
+![XMM output](screenshots/xmm_Compile/xmm_11.png)
+
+
 
 ### vi. Correctness check: SIMD YMM
-<!-- ![YMM output](screenshots/ymm_output.png) -->
-_TODO: screenshot_
+![YMM output](screenshots/ymm_Compile/ymm_1.png)
+
+![YMM output](screenshots/ymm_Compile/ymm_2.png)
+
+![YMM output](screenshots/ymm_Compile/ymm_3.png)
+
+**Release:**
+
+![YMM output](screenshots/ymm_Compile/ymm_9.png)
+
+![YMM output](screenshots/ymm_Compile/ymm_10.png)
+
+![YMM output](screenshots/ymm_Compile/ymm_11.png)
+
+
 
 ### vii. Boundary check: SIMD XMM and YMM
 **Boundary Check for Debug:**
 
+XMM Register:
+
+![Boundary Check](screenshots/xmm_Compile/xmm4.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm5.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm6.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm7.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm8.png)
+
+
+YMM register
+
+![Boundary Check](screenshots/ymm_Compile/ymm4.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm5.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm6.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm7.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm8.png)
 
 
 **Boundary Check for Release:**
 
+XMM Register:
+
+![Boundary Check](screenshots/xmm_Compile/xmm12.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm13.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm14.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm15.png)
+
+![Boundary Check](screenshots/xmm_Compile/xmm16.png)
+
+
+YMM register
+
+![Boundary Check](screenshots/ymm_Compile/ymm12.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm13.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm14.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm15.png)
+
+![Boundary Check](screenshots/ymm_Compile/ymm16.png)
 
 
 
 ### viii. Analysis of results
 
-_TODO: write this once the measurements are in. Questions to answer, with what our code design suggests (confirm or refute each one with the numbers):_
-
 **Which version is fastest, and why?**
-_TODO._
+The fastest version is the SIMD YMM kernel, which processes 4 numbers at a time. The SIMD XMM kernel is next, processing 2 numbers at a time. The x86-64 kernel is slower than C in Release, and the C kernel is faster than x86-64 in Release. The SIMD kernels are faster because they do more work per instruction, and the YMM kernel does the most work per instruction.
 
 **AHAness: is the kernel memory-bound or compute-bound?**
 - *Memory-bound* means the processor spends most of its time **waiting for numbers to arrive from RAM**. *Compute-bound* means it spends most of its time **doing the arithmetic**. This is observed when at higher vectors some devices cannot compute.
