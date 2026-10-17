@@ -256,7 +256,7 @@ Average of 30 runs, in seconds.
 | :--- | :-: | :-: | :-: | :-: |
 | 2^20 | 0.0077 | 0.0084 | 0.0012 | 0.0009 |
 | 2^26 | 0.2772 | 0.428 | 0.055 | 0.04021 |
-| 2^30 (as fallback) | 1.1917 | 1.8246 | 0.2347 | 0.1714 |
+| 2^27 (as fallback) | 1.1917 | 1.8246 | 0.2347 | 0.1714 |
 
 #### Release
 | n | C | x86-64 | SIMD XMM | SIMD YMM |
@@ -265,12 +265,11 @@ Average of 30 runs, in seconds.
 | 2^26 | 0.1268 | 0.4323 | 0.0567 | 0.0555 |
 | 2^27 (as fallback) | 0.5738 | 1.792 | 0.2314 | 0.17 |
 
-#### Release
+#### Geometric mean of each kernel in reference to C in Release
 | n | x86-64 | SIMD XMM | SIMD YMM |
 | :--- | :-: | :-: | :-: |
-| 2^20 |  0.01 | 0.0014 | 0.0011 |
-| 2^26 |  0.4323 | 0.0567 | 0.0555 |
-| 2^27 (as fallback) | 1.792 | 0.2314 | 0.17 |
+| Geometric Mean |  2.4660 | 0.3288 | 0.2719 |
+| Speed-Up |  0.4055x | 3.0413x | 3.6778x |
 
 ### iii. Correctness check: C version
 <!-- ![C output](screenshots/c_output.png) -->
